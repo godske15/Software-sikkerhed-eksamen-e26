@@ -32,11 +32,22 @@ namespace WebGoatCore.Controllers
         [HttpPost("{entryId}")]
         public IActionResult Reply(int entryId, string contents)
         {
+            BlogResponseContents validatedContents;
+            try
+            {
+                validatedContents = new BlogResponseContents(contents);
+            }
+            catch (ArgumentException exception)
+            {
+                ModelState.AddModelError("contents", exception.Message);
+                return View(_blogEntryRepository.GetBlogEntry(entryId));
+            }
+
             var userName = User?.Identity?.Name ?? "Anonymous";
             var response = new BlogResponse()
             {
                 Author = userName,
-                Contents = contents,
+                Contents = validatedContents,
                 BlogEntryId = entryId,
                 ResponseDate = DateTime.Now
             };

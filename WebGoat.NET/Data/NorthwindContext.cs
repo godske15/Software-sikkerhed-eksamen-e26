@@ -54,6 +54,13 @@ namespace WebGoatCore.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<OrderDetail>().HasKey(a => new { a.ProductId, a.OrderId });
+
+            // Value conversion: databasen gemmer tekst, C# bruger domæneprimitiven
+            modelBuilder.Entity<BlogResponse>()
+                .Property(r => r.Contents)
+                .HasConversion(
+                    contents => contents.GetValue(),             // C# -> database
+                    value => new BlogResponseContents(value));   // database -> C#
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
