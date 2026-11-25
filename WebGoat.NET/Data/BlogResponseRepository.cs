@@ -13,7 +13,8 @@ namespace WebGoatCore.Data
 
         public void CreateBlogResponse(BlogResponse response)
         {
-            //TODO: should put this in a try/catch
+            var validatedContents = BlogEntry.BlogContent.Create(response.Contents);
+            response.Contents = validatedContents.Value;
             _context.BlogResponses.Add(response);
             _context.SaveChanges();
         }

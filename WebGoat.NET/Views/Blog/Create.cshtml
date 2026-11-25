@@ -8,6 +8,8 @@
     Create a new blog entry
 </h1>
 <form method="post">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
     @if (Model != null)
     {
         <span>New blog entry was posted.</span>

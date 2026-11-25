@@ -30,8 +30,12 @@ namespace WebGoatCore.Controllers
         }
 
         [HttpPost("{entryId}")]
+        [ValidateAntiForgeryToken]
         public IActionResult Reply(int entryId, string contents)
         {
+            if (!TryValidateContent(contents))
+                return View(_blogEntryRepository.GetBlogEntry(entryId));
+
             var userName = User?.Identity?.Name ?? "Anonymous";
             var response = new BlogResponse()
             {
@@ -51,10 +55,44 @@ namespace WebGoatCore.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(string title, string contents)
         {
+            if (!TryValidateBlogEntry(title, contents))
+                return View();
+
             var blogEntry = _blogEntryRepository.CreateBlogEntry(title, contents, User!.Identity!.Name!);
             return View(blogEntry);
+        }
+
+        private bool TryValidateContent(string contents)
+        {
+            try
+            {
+                _ = BlogEntry.BlogContent.Create(contents);
+                return true;
+            }
+            catch (ArgumentException exception)
+            {
+                ModelState.AddModelError("contents", exception.Message);
+                return false;
+            }
+        }
+
+        private bool TryValidateBlogEntry(string title, string contents)
+        {
+            var valid = true;
+            try
+            {
+                _ = BlogEntry.BlogTitle.Create(title);
+            }
+            catch (ArgumentException exception)
+            {
+                ModelState.AddModelError("title", exception.Message);
+                valid = false;
+            }
+
+            return TryValidateContent(contents) && valid;
         }
 
     }
