@@ -26,7 +26,7 @@ namespace WebGoatCore.Models
         /// <summary>Validated plain-text content for a blog entry or response.</summary>
         public readonly record struct BlogContent
         {
-            public const int MaxLength = 10000;
+            public const int MaxLength = 500;
             public string Value { get; }
 
             private BlogContent(string value) => Value = value;
@@ -53,9 +53,9 @@ namespace WebGoatCore.Models
         }
 
         public int Id { get; set; }
-        public string Title { get; set; }
+        public BlogTitle Title { get; set; }
         public DateTime PostedDate { get; set; }
-        public string Contents { get; set; }
+        public BlogContent Contents { get; set; }
         public string Author { get; set; }
 
         public virtual IList<BlogResponse> Responses { get; set; }
