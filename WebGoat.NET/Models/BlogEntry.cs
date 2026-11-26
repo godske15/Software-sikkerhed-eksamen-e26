@@ -9,7 +9,7 @@ namespace WebGoatCore.Models
         /// <summary>Validated title for a blog entry.</summary>
         public readonly record struct BlogTitle
         {
-            public const int MaxLength = 200;
+            public const int MaxLength = 500;
             public string Value { get; }
 
             private BlogTitle(string value) => Value = value;
