@@ -53,9 +53,9 @@ namespace WebGoatCore.Models
         }
 
         public int Id { get; set; }
-        public BlogTitle Title { get; set; }
+        public string Title { get; set; }
         public DateTime PostedDate { get; set; }
-        public BlogContent Contents { get; set; }
+        public string Contents { get; set; }
         public string Author { get; set; }
 
         public virtual IList<BlogResponse> Responses { get; set; }
