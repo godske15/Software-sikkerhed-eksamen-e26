@@ -10,6 +10,10 @@ namespace WebGoatCore.Models
 
         private BlogContent(string value) => Value = value;
 
+        /// <summary>Creates content from an existing database value without input validation.</summary>
+        internal static BlogContent FromPersistence(string value) => new BlogContent(value);
+
+        
         public static BlogContent Create(string value)
         {
             if (string.IsNullOrWhiteSpace(value))

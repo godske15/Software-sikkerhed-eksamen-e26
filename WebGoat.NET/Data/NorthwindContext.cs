@@ -57,10 +57,10 @@ namespace WebGoatCore.Data
             modelBuilder.Entity<BlogEntry>().Property(entry => entry.Title)
                 .HasConversion(title => title.Value, value => BlogTitle.Create(value));
             modelBuilder.Entity<BlogEntry>().Property(entry => entry.Contents)
-                .HasConversion(content => content.Value, value => BlogContent.Create(value));
+                .HasConversion(content => content.Value, value => BlogContent.FromPersistence(value));
             modelBuilder.Entity<BlogResponse>().Property(response => response.Contents)
-                .HasConversion(content => content.Value, value => BlogContent.Create(value));
-        }
+                .HasConversion(content => content.Value, value => BlogContent.FromPersistence(value));
+        }        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
