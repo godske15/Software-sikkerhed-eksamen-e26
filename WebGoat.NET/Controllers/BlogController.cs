@@ -69,7 +69,7 @@ namespace WebGoatCore.Controllers
         {
             try
             {
-                _ = BlogEntry.BlogContent.Create(contents);
+                BlogEntry.BlogContent.Create(contents);
                 return true;
             }
             catch (ArgumentException exception)
@@ -84,7 +84,8 @@ namespace WebGoatCore.Controllers
             var valid = true;
             try
             {
-                _ = BlogEntry.BlogTitle.Create(title);
+                BlogEntry.BlogTitle.Create(title);
+                BlogEntry.BlogContent.Create(contents);
             }
             catch (ArgumentException exception)
             {
