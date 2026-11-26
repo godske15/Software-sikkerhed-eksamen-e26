@@ -40,7 +40,7 @@ namespace WebGoatCore.Controllers
             var response = new BlogResponse()
             {
                 Author = userName,
-                Contents = contents,
+                Contents = BlogContent.Create(contents),
                 BlogEntryId = entryId,
                 ResponseDate = DateTime.Now
             };
@@ -69,7 +69,7 @@ namespace WebGoatCore.Controllers
         {
             try
             {
-                BlogEntry.BlogContent.Create(contents);
+                BlogContent.Create(contents);
                 return true;
             }
             catch (ArgumentException exception)
@@ -84,12 +84,12 @@ namespace WebGoatCore.Controllers
             var valid = true;
             try
             {
-                BlogEntry.BlogTitle.Create(title);
-                BlogEntry.BlogContent.Create(contents);
+                BlogTitle.Create(title);
+                BlogContent.Create(contents);
             }
             catch (ArgumentException exception)
             {
-                ModelState.AddModelError("title", exception.Message);
+                ModelState.AddModelError("contents", exception.Message);
                 valid = false;
             }
 

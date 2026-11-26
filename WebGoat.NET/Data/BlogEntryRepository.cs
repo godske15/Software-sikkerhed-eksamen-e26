@@ -17,13 +17,13 @@ namespace WebGoatCore.Data
 
         public BlogEntry CreateBlogEntry(string title, string contents, string username)
         {
-            var validatedTitle = BlogEntry.BlogTitle.Create(title);
-            var validatedContents = BlogEntry.BlogContent.Create(contents);
+            var validatedTitle = BlogTitle.Create(title);
+            var validatedContents = BlogContent.Create(contents);
 
             var entry = new BlogEntry
             {
-                Title = validatedTitle.Value,
-                Contents = validatedContents.Value,
+                Title = validatedTitle,
+                Contents = validatedContents,
                 Author = username,
                 PostedDate = DateTime.Now,
             };

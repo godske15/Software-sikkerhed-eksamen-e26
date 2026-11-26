@@ -54,6 +54,12 @@ namespace WebGoatCore.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<OrderDetail>().HasKey(a => new { a.ProductId, a.OrderId });
+            modelBuilder.Entity<BlogEntry>().Property(entry => entry.Title)
+                .HasConversion(title => title.Value, value => BlogTitle.Create(value));
+            modelBuilder.Entity<BlogEntry>().Property(entry => entry.Contents)
+                .HasConversion(content => content.Value, value => BlogContent.Create(value));
+            modelBuilder.Entity<BlogResponse>().Property(response => response.Contents)
+                .HasConversion(content => content.Value, value => BlogContent.Create(value));
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
