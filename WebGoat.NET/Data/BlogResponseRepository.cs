@@ -1,4 +1,5 @@
-﻿using WebGoatCore.Models;
+﻿using System;
+using WebGoatCore.Models;
 
 namespace WebGoatCore.Data
 {
@@ -11,9 +12,20 @@ namespace WebGoatCore.Data
             _context = context;
         }
 
-        public void CreateBlogResponse(BlogResponse response)
+        // Step 5: Repositoryet kræver valideret tekst og sætter selv datoen.
+        // GAMMELT: public void CreateBlogResponse(BlogResponse response)
+        public void CreateBlogResponse(int entryId, BlogResponseContent contents, string author)
         {
-            //TODO: should put this in a try/catch
+            ArgumentNullException.ThrowIfNull(contents);
+            ArgumentNullException.ThrowIfNull(author);
+
+            var response = new BlogResponse
+            {
+                BlogEntryId = entryId,
+                Author = author,
+                ResponseDate = DateTime.Now,
+                Contents = contents.Value
+            };
             _context.BlogResponses.Add(response);
             _context.SaveChanges();
         }

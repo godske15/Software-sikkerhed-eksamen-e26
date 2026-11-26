@@ -3,6 +3,7 @@ using WebGoatCore.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using WebGoatCore.ViewModels;
 
 //Testpush
 
@@ -32,9 +33,16 @@ namespace WebGoatCore.Controllers
         }
 
         [HttpPost("{entryId}")]
-        public IActionResult Reply(int entryId, string contents)
+        // Step 4: DTO'en valideres før domæneprimitiven oprettes og svaret gemmes.
+        // GAMMELT: public IActionResult Reply(int entryId, string contents)
+        public IActionResult Reply([FromRoute] int entryId, [FromForm] BlogResponseDTO input)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var contents = new BlogResponseContent(input.Contents);
             var userName = User?.Identity?.Name ?? "Anonymous";
+            /* GAMMELT: Controlleren oprettede selv entiteten uden en domæneprimitiv:
             var response = new BlogResponse()
             {
                 Author = userName,
@@ -43,6 +51,8 @@ namespace WebGoatCore.Controllers
                 ResponseDate = DateTime.Now
             };
             _blogResponseRepository.CreateBlogResponse(response);
+            */
+            _blogResponseRepository.CreateBlogResponse(entryId, contents, userName);
 
             return RedirectToAction("Index");
         }

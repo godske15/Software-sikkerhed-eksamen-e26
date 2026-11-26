@@ -19,7 +19,10 @@
             @foreach (var response in blogEntry.Responses)
             {
                 <div class="blogResponse">
-                    <div class="blogResponseContents">@Html.Raw(response.Contents)</div>
+                    @* STEP 1
+                    GAMMELT:  @Html.Raw(response.Contents)
+                    Razor HTML-koder svaret, så browseren viser det som tekst i stedet for at udføre det som kode. *@
+                    <div class="blogResponseContents">@response.Contents</div>
                     <div class="blogResponseSignature">@response.Author - @response.ResponseDate</div>
                 </div>
             }
